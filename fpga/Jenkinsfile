@@ -1,0 +1,25 @@
+pipeline{
+    agent { label 'verify' }
+    stages {
+        stage('SCA') {
+            steps{
+                echo 'This is SCA step' 
+            }
+        }
+        stage('Deploy') {
+            steps{
+                echo 'This is Deploy step'
+            }
+        }
+        stage('jobGen') {
+            steps{
+                echo 'This is jobGen step'    
+            }
+        }
+        stage('jobRun') {
+            steps{
+                echo 'This is jobRun step'
+            }
+        }
+    }
+}
