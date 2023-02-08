@@ -1,5 +1,19 @@
 pipeline{
     agent { label 'verify' }
+    post {
+        always{
+            script{
+                publishHTML (target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: true,
+                    reportDir: '/home/jackeydu/jenkins/workspace/report/',
+                    reportFiles: 'reports.html',
+                    reportName: "brom-test-report"
+                ])
+            }
+        }
+    }
     stages {
         stage('SCA') {
             steps{
@@ -19,7 +33,15 @@ pipeline{
         stage('jobRun') {
             steps{
                 echo 'This is jobRun step'
+                sh '''
+                cd /home/jackeydu/workspace/git/ltp/testcases/cix_tests_suite/brom/qspi_fpga
+                export PATH=/home/jackeydu/.local/bin:$PATH
+                pytest -k normal
+                rp=`ls -tl reports/*html | head -n 1 | cut -d / -f2`
+                cp reports/$rp /home/jackeydu/jenkins/workspace/report/reports.html
+                '''
             }
         }
     }
 }
+
