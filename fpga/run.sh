@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [ $1 = 'AP' ]; then
+    cd /home/jackeydu/workspace/git/ltp/testcases/cix_tests_suite/fpgaci/ap
+else
+    cd /home/jackeydu/workspace/git/ltp/testcases/cix_tests_suite/brom/qspi_fpga
+fi
+export PATH=/home/jackeydu/.local/bin:$PATH
+pytest
+rp=`ls -tl reports/*html | head -n 1 | cut -d / -f2`
+cp reports/$rp /home/jackeydu/jenkins/workspace/report/reports.html
