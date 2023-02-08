@@ -14,6 +14,12 @@ pipeline{
             }
         }
     }
+    parameters {
+        choice(name: 'Model', choices: ['AP', 'BROM'], description: 'Test Model¡­.')
+    }
+    environment {
+        SH_MODEL = "$params.Model"
+    }
     stages {
         stage('SCA') {
             steps{
@@ -34,9 +40,13 @@ pipeline{
             steps{
                 echo 'This is jobRun step'
                 sh '''
-                cd /home/jackeydu/workspace/git/ltp/testcases/cix_tests_suite/brom/qspi_fpga
+                if [ ${SH_MODEL} = 'AP' ]; then
+                    cd /home/jackeydu/workspace/git/ltp/testcases/cix_tests_suite/fpgaci/ap
+                else
+                    cd /home/jackeydu/workspace/git/ltp/testcases/cix_tests_suite/brom/qspi_fpga
+                fi
                 export PATH=/home/jackeydu/.local/bin:$PATH
-                pytest -k normal
+                pytest
                 rp=`ls -tl reports/*html | head -n 1 | cut -d / -f2`
                 cp reports/$rp /home/jackeydu/jenkins/workspace/report/reports.html
                 '''
@@ -44,4 +54,3 @@ pipeline{
         }
     }
 }
-
