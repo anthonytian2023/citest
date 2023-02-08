@@ -40,7 +40,7 @@ pipeline{
             steps{
                 echo 'This is jobRun step'
                 sh '''
-                ./run.sh $SH_MODEL
+                fpga/run.sh $SH_MODEL
                 '''
             }
         }
