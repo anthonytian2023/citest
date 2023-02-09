@@ -31,11 +31,15 @@ pipeline{
         SH_APBIT = "$params.AP_Bitfile_Version"
         SH_ITYPE =  "$params.Image_Type"
         SH_IVER = "$params.Image_Version"
+        SH_JOBDIR="$HOME/CI/$JOB_NAME/$BUILD_NUMBER"
     }
     stages {
-        stage('SCA') {
+        stage('SCM') {
             steps{
-                echo 'This is SCA step' 
+                echo 'This is SCM step' 
+                sh '''
+                scm.sh
+                '''
             }
         }
         stage('Deploy') {
