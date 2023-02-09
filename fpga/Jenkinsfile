@@ -15,10 +15,22 @@ pipeline{
         }
     }
     parameters {
-        choice(name: 'Model', choices: ['AP', 'BROM'], description: 'Select the test model...')
+        choice(name: 'Model', choices: ['BROM', 'AP'], description: 'Select the test model...')
+        string(name: 'SE_Bitfile_Version', defaultValue: 'fpga3_20221227_csu_se_new_dp_usb2', 
+        description: 'Input the bitfile version for BootROM or SE firmware test')
+        string(name: 'AP_Bitfile_Version', defaultValue: 'ap_20230129', 
+        description: 'Input the bitfile version for AP model test')
+        choice(name: 'Image_Type', choices: ['Daily', 'Release', 'CI'], 
+        description: 'Select the test Image type...')
+        string(name: 'Image_Version', defaultValue: 'latest', 
+        description: 'Input the target Image version in nexus like 2023020904-0000101')
     }
     environment {
         SH_MODEL = "$params.Model"
+        SH_SEBIT =  "$params.SE_Bitfile_Version"
+        SH_APBIT = "$params.AP_Bitfile_Version"
+        SH_ITYPE =  "$params.Image_Type"
+        SH_IVER = "$params.Image_Version"
     }
     stages {
         stage('SCA') {
@@ -40,7 +52,7 @@ pipeline{
             steps{
                 echo 'This is jobRun step'
                 sh '''
-                fpga/run.sh $SH_MODEL
+                fpga/run.sh $SH_MODEL $SH_SEBIT $SH_APBIT $SH_ITYPE $SH_VER
                 '''
             }
         }
