@@ -9,13 +9,13 @@ pipeline{
                     keepAll: true,
                     reportDir: '/home/jackeydu/jenkins/workspace/report/',
                     reportFiles: 'reports.html',
-                    reportName: "brom-test-report"
+                    reportName: "${SH_MODEL}-Test-Report"
                 ])
             }
         }
     }
     parameters {
-        choice(name: 'Model', choices: ['AP', 'BROM'], description: 'Test Model¡­.')
+        choice(name: 'Model', choices: ['AP', 'BROM'], description: 'Select the test model...')
     }
     environment {
         SH_MODEL = "$params.Model"
