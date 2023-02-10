@@ -24,6 +24,8 @@ pipeline{
         description: 'Select the test Image type...')
         string(name: 'Image_Version', defaultValue: 'latest', 
         description: 'Input the target Image version in nexus like 2023020904-0000101')
+        choice(name: 'FPGA-PLAT', choices: ['fpga01', 'fpga02', 'fpga03-sub1'], 
+        description: 'Select the FPGA board...')
     }
     environment {
         SH_MODEL = "$params.Model"
@@ -31,14 +33,14 @@ pipeline{
         SH_APBIT = "$params.AP_Bitfile_Version"
         SH_ITYPE =  "$params.Image_Type"
         SH_IVER = "$params.Image_Version"
-        SH_JOBDIR="$HOME/CI/$JOB_NAME/$BUILD_NUMBER"
+        SH_JOBDIR="$JOB_NAME/$BUILD_NUMBER"
     }
     stages {
         stage('SCM') {
             steps{
                 echo 'This is SCM step' 
                 sh '''
-                scm.sh
+                fpga/scm.sh $SH_JOBDIR
                 '''
             }
         }

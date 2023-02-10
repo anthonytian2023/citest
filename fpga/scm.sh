@@ -1,5 +1,6 @@
 #!/bin/bash
-mkdir -p $SH_JOBDIR
-cd $SH_JOBDIR
+tdir=$HOME/CI/$1
+mkdir -p $tdir
+cd $tdir
 git clone --depth 1 ssh://git@gitmirror.cixtech.com/cix_test/ltp
 cd -
