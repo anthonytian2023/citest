@@ -4,7 +4,7 @@ pipeline{
         always{
             sh '''
             # clean up
-            fpga/dpbit.py $SH_FPAT $SH_JOBDIR $SH_MODEL rm $SH_APBIT $SH_SEBIT
+            fpga/dpbit.py $SH_FPLAT $SH_JOBDIR $SH_MODEL rm $SH_APBIT $SH_SEBIT
             fpga/scm.sh $SH_JOBDIR teardown
             '''
             script{
@@ -29,7 +29,7 @@ pipeline{
         description: 'Select the test Image type...')
         string(name: 'Image_Version', defaultValue: 'latest', 
         description: 'Input the target Image version in nexus like 2023020904-0000101')
-        choice(name: 'FPGA-PLAT', choices: ['fpga01', 'fpga02', 'fpga03-sub1'], 
+        choice(name: 'fpga-plat', choices: ['fpga01', 'fpga02', 'fpga03-sub1'], 
         description: 'Select the FPGA board...')
     }
     environment {
@@ -39,7 +39,7 @@ pipeline{
         SH_ITYPE =  "$params.Image_Type"
         SH_IVER = "$params.Image_Version"
         SH_JOBDIR = "$JOB_NAME/$BUILD_NUMBER"
-        SH_FPLAT = "$params.FPGA-PLAT"
+        SH_FPLAT = "$params.fpga-plat"
     }
     stages {
         stage('SCM') {
@@ -55,7 +55,7 @@ pipeline{
                 echo 'This is Deploy step'
                 sh '''
                 # deploy bitfile in remote FPGA-PC
-                fpga/dpbit.py $SH_FPAT $SH_JOBDIR $SH_MODEL cp $SH_APBIT $SH_SEBIT
+                fpga/dpbit.py $SH_FPLAT $SH_JOBDIR $SH_MODEL cp $SH_APBIT $SH_SEBIT
                 '''
             }
         }
