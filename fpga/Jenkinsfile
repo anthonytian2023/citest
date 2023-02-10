@@ -2,6 +2,11 @@ pipeline{
     agent { label 'verify' }
     post {
         always{
+            sh '''
+            # clean up
+            fpga/dpbit.py $SH_FPAT $SH_JOBDIR $SH_MODEL rm $SH_APBIT $SH_SEBIT
+            fpga/scm.sh $SH_JOBDIR teardown
+            '''
             script{
                 publishHTML (target: [
                     allowMissing: false,
@@ -33,20 +38,23 @@ pipeline{
         SH_APBIT = "$params.AP_Bitfile_Version"
         SH_ITYPE =  "$params.Image_Type"
         SH_IVER = "$params.Image_Version"
-        SH_JOBDIR="$JOB_NAME/$BUILD_NUMBER"
+        SH_JOBDIR = "$JOB_NAME/$BUILD_NUMBER"
+        SH_FPLAT = "$params.FPGA-PLAT"
     }
     stages {
         stage('SCM') {
             steps{
                 echo 'This is SCM step' 
                 sh '''
-                fpga/scm.sh $SH_JOBDIR
+                fpga/scm.sh $SH_JOBDIR setup
                 '''
             }
         }
         stage('Deploy') {
             steps{
                 echo 'This is Deploy step'
+                # deploy bitfile in remote FPGA-PC
+                fpga/dpbit.py $SH_FPAT $SH_JOBDIR $SH_MODEL cp $SH_APBIT $SH_SEBIT
             }
         }
         stage('jobGen') {
