@@ -53,8 +53,10 @@ pipeline{
         stage('Deploy') {
             steps{
                 echo 'This is Deploy step'
+                sh '''
                 # deploy bitfile in remote FPGA-PC
                 fpga/dpbit.py $SH_FPAT $SH_JOBDIR $SH_MODEL cp $SH_APBIT $SH_SEBIT
+                '''
             }
         }
         stage('jobGen') {
