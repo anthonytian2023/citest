@@ -5,7 +5,7 @@ if [ $1 = 'AP' ]; then
 elif [ $1 = 'apxip' ]; then
     cd /home/jackeydu/workspace/git/ltp/testcases/cix_tests_suite/brom/ap_xip
 else
-    cd /home/jackeydu/workspace/git/ltp/testcases/cix_tests_suite/brom/qspi_fpga
+    cd /home/jackeydu/workspace/git/ltp/testcases/cix_tests_suite/brom/ap_xip_stress
 fi
 export PATH=/home/jackeydu/.local/bin:$PATH
 pytest
