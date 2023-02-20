@@ -7,7 +7,6 @@ pipeline{
             from: 'devops@cixcomputing.com', replyTo: '', 
             subject: 'Lab loader finished', 
             to: 'anthony@cix.com'
-            sh '''
         }
     }
     parameters {
