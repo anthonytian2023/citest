@@ -22,7 +22,6 @@ pipeline{
         description: 'Whether to update the uploaded FW as default firmware.')
     }
     environment {
-        SH_UFW = "$params.non_default_flash_fw"
         SH_ADF = "$params.as_default"
         SH_JBN = "${JOB_BASE_NAME}"
     }
@@ -33,8 +32,8 @@ pipeline{
                 unstash 'non_default_flash_fw'
                 sh '''
                 eqfw='null'
-                [ -s "$non_default_flash_fw" ] &&  eqfw="$non_default_flash_fw"
-                echo "file is: $non_default_flash_fw"
+                [ -s "non_default_flash_fw" ] &&  eqfw="non_default_flash_fw"
+                echo "file is: non_default_flash_fw"
                 pname=`echo $SH_JBN | cut -d'_' -f3 | tr A-Z a-z`
                 lab_loader/fpga/swflash.py $pname $eqfw $SH_ADF
                 '''
