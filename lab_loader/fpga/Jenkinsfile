@@ -16,7 +16,7 @@ pipeline{
         }
     }
     parameters {
-        file(name: 'non_default_flash_fw',
+        base64File(name: 'non_default_flash_fw',
         description: 'Usually this argment should NOT be used. If you have special requirements to firmware, upload the selected non_default flash firmware like cix_flash_all.bin here.')
         choice(name: 'as_default', choices: ['No', 'Yes'], 
         description: 'Whether to update the uploaded FW as default firmware.')
@@ -30,10 +30,13 @@ pipeline{
         stage('FW Flashing') {
             steps{
                 echo 'This is Firware Flashing step'
-                sh '''
-                pname=`echo $SH_JBN | cut -d'_' -f3 | tr A-Z a-z`
-                lab_loader/fpga/swflash.py $pname $SH_UFW $SH_ADF
-                '''
+                withFileParameter(name:'non_default_flash_fw', allowNoFile: true){
+                    sh '''
+                    echo "file is: $non_default_flash_fw"
+                    pname=`echo $SH_JBN | cut -d'_' -f3 | tr A-Z a-z`
+                    lab_loader/fpga/swflash.py $pname $non_default_flash_fw $SH_ADF
+                    '''
+                }
             }
         }
     }
