@@ -1,0 +1,36 @@
+pipeline{
+    agent { label 'verify' }
+    post {
+        always{
+            mail bcc: '', body: 'dea all', 
+            cc: 'anthony.tian@cixtech.com, peter.chen@cixtech.com, peter.zhang@cixtech.com', 
+            from: 'devops@cixcomputing.com', replyTo: '', 
+            subject: 'Lab loader finished', 
+            to: 'anthony@cix.com'
+            sh '''
+        }
+    }
+    parameters {
+        file(name: 'non_default_flash_fw',
+        description: 'Usually this argment should NOT be used.
+        If you have special requirements to firmware, 
+        upload the selected non_default flash firmware like cix_flash_all.bin here')
+        choice(name: 'as_default', choices: ['No', 'Yes'], 
+        description: 'Whether to update the uploaded FW as default firmware.')
+    }
+    environment {
+        SH_UFW = "$params.non_default_flash_fw"
+        SH_ADF = "$params.as_default"
+    }
+    stages {
+        stage('FW Flashing') {
+            steps{
+                echo 'This is Firware Flashing step'
+                sh '''
+                # load the firmware to lab
+                lab_loader/fpga/swflash.py $fw
+                '''
+            }
+        }
+    }
+}
