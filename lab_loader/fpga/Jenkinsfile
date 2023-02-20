@@ -21,14 +21,15 @@ pipeline{
     environment {
         SH_UFW = "$params.non_default_flash_fw"
         SH_ADF = "$params.as_default"
+        SH_JBN = ${JOB_BASE_NAME}
     }
     stages {
         stage('FW Flashing') {
             steps{
                 echo 'This is Firware Flashing step'
                 sh '''
-                # load the firmware to lab
-                lab_loader/fpga/swflash.py $fw
+                pname=`echo $SH_JBN | cut -d'_' -f-1 | tr A-Z a-z`
+                lab_loader/fpga/swflash.py $pname $SH_UFW $SH_ADF
                 '''
             }
         }
