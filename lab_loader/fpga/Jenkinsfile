@@ -2,11 +2,17 @@ pipeline{
     agent { label 'verify' }
     post {
         always{
-            mail bcc: '', body: 'dea all', 
-            cc: 'anthony.tian@cixtech.com, peter.chen@cixtech.com, peter.zhang@cixtech.com', 
+                wrap([$class: 'BuildUser']) {
+                   script {
+                       BUILD_USER = "${env.BUILD_USER}"
+                       BUILD_USER_EMAIL = "${env.BUILD_USER_EMAIL}"
+                   }
+				}
+            mail bcc: '', body: "Dear ${BUILD_USER},\n\n\tBuild Finished. Please check the result.", 
+            cc: 'anthony.tian@cixtech.com', 
             from: 'devops@cixcomputing.com', replyTo: '', 
-            subject: 'Lab loader finished', 
-            to: 'anthony@cix.com'
+            subject: "Lab loader finished", 
+            to: "${BUILD_USER_EMAIL}"
         }
     }
     parameters {
@@ -25,7 +31,7 @@ pipeline{
             steps{
                 echo 'This is Firware Flashing step'
                 sh '''
-                pname=`echo $SH_JBN | cut -d'_' -f-1 | tr A-Z a-z`
+                pname=`echo $SH_JBN | cut -d'_' -f3 | tr A-Z a-z`
                 lab_loader/fpga/swflash.py $pname $SH_UFW $SH_ADF
                 '''
             }

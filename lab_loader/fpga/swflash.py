@@ -56,7 +56,7 @@ if __name__ == "__main__":
     pcSSH = pSSH(pcInfo[tPC])
     ffwPath = dfwPath
     # whether to update fw
-    if len(sys.argv) >= 3 and sys.argv[2] != None:
+    if len(sys.argv) >= 3 and sys.argv[2] != 'null':
         os.system(cPath + "scp.py "+ sys.argv[2] + " " + tfwPath)
         ffwPath = tfwPath
     if len(sys.argv) >= 4 and sys.argv[3] == "Yes":
