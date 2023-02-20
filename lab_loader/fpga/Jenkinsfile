@@ -33,7 +33,7 @@ pipeline{
                 unstash 'non_default_flash_fw'
                 sh '''
                 eqfw='null'
-                if [ -s $non_default_flash_fw ] &&  eqfw=$non_default_flash_fw
+                [ -s $non_default_flash_fw ] &&  eqfw=$non_default_flash_fw
                 echo "file is: $non_default_flash_fw"
                 pname=`echo $SH_JBN | cut -d'_' -f3 | tr A-Z a-z`
                 lab_loader/fpga/swflash.py $pname $eqfw $SH_ADF
