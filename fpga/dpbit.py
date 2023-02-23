@@ -45,10 +45,13 @@ def bOP(ss, oplist):
         ss.prompt(timeout=to)
         ss.sendline(jcmd)
         eid = ss.expect([pexpect.EOF, pexpect.TIMEOUT, 'OFAIL', 'OPASS'], timeout=3)
+        eid = ss.expect([pexpect.EOF, pexpect.TIMEOUT, 'OFAIL', 'OPASS'], timeout=3)
+        eid = ss.expect([pexpect.EOF, pexpect.TIMEOUT, 'OFAIL', 'OPASS'], timeout=3)
         if eid != 3:
             print("Erorr happens in command %s" % op)
             return 1
         ss.prompt(timeout=3)
+        return 0
 
 if __name__ == "__main__":
     # get target PC arg
@@ -56,18 +59,18 @@ if __name__ == "__main__":
     pcSSH = pSSH(pcInfo[tPC])
     # set the bitfile PATH
     bPath = fciPath + sys.argv[1] + '/' + sys.argv[2]
-    if sys.argv[3] == 'AP':
+    if sys.argv[3].split('_')[0] == 'AP':
         redPath = apPath + '/' + sys.argv[5]
     else:
         redPath = sePath + '/' + sys.argv[6]
 
     if sys.argv[4] == 'cp':
         cpList = [("mkdir -p " + bPath, 3),
-                  ("cp -ar " + redPath + ' ' + bPath, 300),
+                  ("cp -ar " + redPath + ' ' + bPath, 600),
                     ]
         rv = bOP(pcSSH, cpList)
     if sys.argv[4] == 'rm':
-        rmList = [("rm -rf " + bPath, 3),
+        rmList = [("rm -rf " + bPath, 30),
                  ]
         rv = bOP(pcSSH, rmList)
     sys.exit(rv)
