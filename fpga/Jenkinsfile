@@ -62,9 +62,9 @@ pipeline{
                 '''
             }
         }
-        stage('jobGen') {
+        stage('jobConfig') {
             steps{
-                echo 'This is jobGen step'    
+                echo 'This is Job Configure step'    
             }
         }
         stage('jobRun') {
