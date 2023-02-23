@@ -26,8 +26,7 @@ pipeline{
                 description: 'Input the bitfile version for BootROM or SE firmware test')
         string(name: 'AP_Bitfile_Version', defaultValue: 'ap_20230129', \
                 description: 'Input the bitfile version for AP model test')
-        choice(name: 'Image_Type', choices: ['linux-daily/cix_sky1_alpha0.4_dev',
-                'linux-release/cix_sky1_Alpha0.4-rc2', 'linux-ci'], \ 
+        choice(name: 'Image_Type', choices: ['linux-daily/cix_sky1_alpha0.4_dev','linux-release/cix_sky1_Alpha0.4-rc2', 'linux-ci'], \ 
                 description: 'Select the test Image type...')
         string(name: 'Image_Version', defaultValue: 'latest', \
                 description: 'Input the target Image version in nexus like 2023020904-0000101')
