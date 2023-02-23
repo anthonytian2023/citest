@@ -20,17 +20,17 @@ pipeline{
         }
     }
     parameters {
-        choice(name: 'Model', choices: ['BROM_RSA', 'BROM_SM2', 'BROM_XIP_RSA', 'BROM_XIP_SM2', 'AP_BSP'], \
+        choice(name: 'Model', choices: ['BROM_RSA', 'BROM_SM2', 'BROM_XIP_RSA', 'BROM_XIP_SM2', 'AP_BSP'],
                 description: 'Select the test model...')
-        string(name: 'SE_Bitfile_Version', defaultValue: 'fpga3_20221227_csu_se_new_dp_usb2', \
+        string(name: 'SE_Bitfile_Version', defaultValue: 'fpga3_20221227_csu_se_new_dp_usb2',
                 description: 'Input the bitfile version for BootROM or SE firmware test')
-        string(name: 'AP_Bitfile_Version', defaultValue: 'ap_20230129', \
+        string(name: 'AP_Bitfile_Version', defaultValue: 'ap_20230129',
                 description: 'Input the bitfile version for AP model test')
-        choice(name: 'Image_Type', choices: ['linux-daily/cix_sky1_alpha0.4_dev','linux-release/cix_sky1_Alpha0.4-rc2', 'linux-ci'], \ 
+        choice(name: 'Image_Type', choices: ['linux-daily/cix_sky1_alpha0.4_dev','linux-release/cix_sky1_Alpha0.4-rc2', 'linux-ci'], 
                 description: 'Select the test Image type...')
-        string(name: 'Image_Version', defaultValue: 'latest', \
+        string(name: 'Image_Version', defaultValue: 'latest', 
                 description: 'Input the target Image version in nexus like 2023020904-0000101')
-        choice(name: 'FPGA_PLAT', choices: ['fpga01', 'fpga02', 'fpga03-sub1', 'fpga03-sub2', 'fpga03-sub3'], \
+        choice(name: 'FPGA_PLAT', choices: ['fpga01', 'fpga02', 'fpga03-sub1', 'fpga03-sub2', 'fpga03-sub3'],
                 description: 'Select the FPGA board...')
     }
     environment {
