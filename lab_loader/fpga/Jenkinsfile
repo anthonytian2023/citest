@@ -35,6 +35,8 @@ pipeline{
                 [ -s "non_default_flash_fw" ] &&  eqfw="non_default_flash_fw"
                 echo "file is: non_default_flash_fw"
                 pname=`echo $SH_JBN | cut -d'_' -f3 | tr A-Z a-z`
+                adm=`echo $SH_JBN | cut -d'_' -f4 | tr A-Z a-z`
+                [ -z "$adm" ] && eqfw='null'
                 lab_loader/fpga/swflash.py $pname $eqfw $SH_ADF
                 '''
             }
