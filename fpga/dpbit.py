@@ -45,8 +45,6 @@ def bOP(ss, oplist):
         ss.prompt(timeout=to)
         ss.sendline(jcmd)
         eid = ss.expect([pexpect.EOF, pexpect.TIMEOUT, 'OFAIL', 'OPASS'], timeout=3)
-        eid = ss.expect([pexpect.EOF, pexpect.TIMEOUT, 'OFAIL', 'OPASS'], timeout=3)
-        eid = ss.expect([pexpect.EOF, pexpect.TIMEOUT, 'OFAIL', 'OPASS'], timeout=3)
         if eid != 3:
             print("Erorr happens in command %s" % op)
             return 1
