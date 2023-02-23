@@ -20,7 +20,7 @@ pipeline{
         }
     }
     parameters {
-        choice(name: 'Model', choices: ['BROM_RSA', 'BROM_SM2', 'BROM_XIP_RSA', 'BROM_XIP_SM2,'AP_BSP'], \
+        choice(name: 'Model', choices: ['BROM_RSA', 'BROM_SM2', 'BROM_XIP_RSA', 'BROM_XIP_SM2', 'AP_BSP'], \
                 description: 'Select the test model...')
         string(name: 'SE_Bitfile_Version', defaultValue: 'fpga3_20221227_csu_se_new_dp_usb2', \
                 description: 'Input the bitfile version for BootROM or SE firmware test')
