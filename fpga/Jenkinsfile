@@ -71,7 +71,7 @@ pipeline{
             steps{
                 echo 'This is jobRun step'
                 sh '''
-                fpga/run.sh $SH_MODEL $SH_SEBIT $SH_APBIT $SH_ITYPE $SH_VER
+                fpga/run.sh $SH_JOBDIR $SH_MODEL $SH_SEBIT $SH_APBIT $SH_ITYPE $SH_VER
                 '''
             }
         }
