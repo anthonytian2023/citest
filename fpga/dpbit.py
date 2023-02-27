@@ -56,6 +56,11 @@ if __name__ == "__main__":
     # get target PC arg
     tPC = sys.argv[1].split('-')[0]
     pcSSH = pSSH(pcInfo[tPC])
+    if sys.argv[3].split('_')[0] == 'AP':
+        redPath = apPath + '/' + sys.argv[5]
+    else:
+        redPath = sePath + '/' + sys.argv[6]
+
     # set the bitfile PATH
     bPath = fciPath + sys.argv[1] + '/' + sys.argv[2]
     if sys.argv[4] == 'cp':
