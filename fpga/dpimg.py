@@ -55,5 +55,5 @@ if __name__ == "__main__":
     rnL = []
     ndl(rnL)
     # scp image to remote FPGA PC
-    bPath = rfciPath + sys.argv[1] + '/' + sys.argv[2] + '/' + bVer
+    bPath = rfciPath + sys.argv[1] + '/' + sys.argv[2] + '/' + bVer + '/ap'
     os.system('{2}scp.py {0} {1}'.format(fnImgP, bPath, cPath))

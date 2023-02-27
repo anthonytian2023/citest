@@ -30,7 +30,7 @@ if sys.argv[3].split('_')[0] == 'AP':
     bVer = sys.argv[4]
 else:
     bVer = sys.argv[5]
-bitPath = "/home/svc.fpgatest/CI/{0}/{1}/{2}".format(sys.argv[1], sys.argv[2], bVer)
+bitPath = "/home/svc.fpgatest/CI/{0}/{1}/{2}/ap".format(sys.argv[1], sys.argv[2], bVer)
 fDict = {'fpga01': 'fpga1 fpga-1',
          'fpga02': 'fpga2 fpga-2',
          'fpga03-sub1': 'fpga3-sub1 fpga-3',
