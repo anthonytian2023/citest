@@ -9,7 +9,8 @@ arg1 - the fpga PC name like fpga01 or fpga01-sub1
 arg2 - jobdir like $JOB_NAME/$BUILD_NUMBER
 arg3 - test model like AP or BROM
 arg4 - operation like cp, rm
-argx - others due to the operation
+arg5 - AP bit file version
+arg6 - SE bit file version
 """
 from pexpect import pxssh
 import pexpect
@@ -57,11 +58,6 @@ if __name__ == "__main__":
     pcSSH = pSSH(pcInfo[tPC])
     # set the bitfile PATH
     bPath = fciPath + sys.argv[1] + '/' + sys.argv[2]
-    if sys.argv[3].split('_')[0] == 'AP':
-        redPath = apPath + '/' + sys.argv[5]
-    else:
-        redPath = sePath + '/' + sys.argv[6]
-
     if sys.argv[4] == 'cp':
         cpList = [("mkdir -p " + bPath, 3),
                   ("cp -ar " + redPath + ' ' + bPath, 600),

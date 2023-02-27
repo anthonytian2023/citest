@@ -14,8 +14,6 @@ arg6 - Image Type like CI/Daily/Release
 arg7 - Image version like 2023022219-0000201
 argx - others due to the operation
 """
-from pexpect import pxssh
-import pexpect
 import sys
 import os
 import time
@@ -49,8 +47,13 @@ def ndl(rnlist=None):
 
 if __name__ == "__main__":
     # fetch image to local
-    rnL = [('brom.hex', 'boot_rom.hex'),]
+    if sys.argv[3].split('_')[0] == 'AP':
+        bVer = sys.argv[4]
+    else:
+        bVer = sys.argv[5]
+    #rnL = [('brom.hex', 'boot_rom.hex'),]
+    rnL = []
     ndl(rnL)
     # scp image to remote FPGA PC
-    bPath = rfciPath + sys.argv[1] + '/' + sys.argv[2]
+    bPath = rfciPath + sys.argv[1] + '/' + sys.argv[2] + '/' + bVer
     os.system('{2}scp.py {0} {1}'.format(fnImgP, bPath, cPath))
