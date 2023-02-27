@@ -46,6 +46,7 @@ iList = [('env', '\nPLAT={0}'.format(plat)),
 yList = [('rpath', bitPath),
          ('name', platXM),
          ('qpath', bitPath),
+         ('dfw', 'cix_flash_all.bin'),
         ]
 
 def ymlUpdate(yfile, plt, ylist):

@@ -3,8 +3,8 @@ tdir=$HOME/CI/$1
 cd $tdir
 export PATH=/home/jackeydu/.local/bin:$PATH
 cd ltp/testcases/cix_tests_suite/fpgaci/pengine
-ttl=$3
-dsc="$3 Auto Test"
+ttl=$2
+dsc="$_Auto_Test"
 rFlag="--report=report.html --title=$ttl --tester='SW-Test-Robot' --desc=$dsc"
 if [ -n "$7" ]; then
     kFlag="-k $7"

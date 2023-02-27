@@ -26,7 +26,7 @@ pcInfo = {
         }
 cPath = os.path.split(os.path.realpath(__file__))[0] + "/"
 # fpga CI path
-fciPath = "${HOME}/CI/"
+fciPath = "/home/svc.fpgatest/CI/"
 apPath = "/home/liming.zhang/fpga_image/ap"
 sePath = "/home/jian.guan"
 jcmd = "if [ $? -eq 0 ]; then echo 'OPASS'; else echo 'OFAIL'; fi"
@@ -50,7 +50,7 @@ def bOP(ss, oplist):
             print("Erorr happens in command %s" % op)
             return 1
         ss.prompt(timeout=3)
-        return 0
+    return 0
 
 if __name__ == "__main__":
     # get target PC arg
