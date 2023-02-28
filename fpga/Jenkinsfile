@@ -4,9 +4,9 @@ pipeline{
         always{
             sh '''
             # clean up
-            #fpga/dpbit.py $SH_FPLAT $SH_JOBDIR $SH_MODEL rm $SH_APBIT $SH_SEBIT
-            #fpga/scm.sh $SH_JOBDIR teardown
-            echo "Debug"
+            fpga/dpbit.py $SH_FPLAT $SH_JOBDIR $SH_MODEL rm $SH_APBIT $SH_SEBIT
+            fpga/scm.sh $SH_JOBDIR teardown
+            #echo "Debug"
             '''
             script{
                 publishHTML (target: [
@@ -81,7 +81,7 @@ pipeline{
                 echo 'This is jobRun step'
                 sh '''
                 echo "No run"
-                #fpga/run.sh $SH_JOBDIR $SH_MODEL $SH_SEBIT $SH_APBIT $SH_ITYPE $SH_IVER $SH_KEY
+                fpga/run.sh $SH_JOBDIR $SH_MODEL $SH_SEBIT $SH_APBIT $SH_ITYPE $SH_IVER $SH_KEY
                 '''
             }
         }
