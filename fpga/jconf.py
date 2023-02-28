@@ -21,6 +21,11 @@ import yaml
 import configparser
 
 cPath = os.path.split(os.path.realpath(__file__))[0] + "/"
+ffDict = {'sub0': 'subsys_0',
+          'sub1': 'subsys_1',
+          'sub2': 'subsys_2',
+          'sub3': 'subsys_3',
+            }
 # Jenkins CI path
 jciPath = os.environ['HOME'] + "/CI/" + sys.argv[2] + '/'
 ltpPath = "ltp/testcases/cix_tests_suite/fpgaci/pengine"
@@ -30,7 +35,10 @@ if sys.argv[3].split('_')[0] == 'AP':
     bVer = sys.argv[4]
 else:
     bVer = sys.argv[5]
-bitPath = "/home/svc.fpgatest/CI/{0}/{1}/{2}/ap".format(sys.argv[1], sys.argv[2], bVer)
+fsbf = "/ap"
+if 'sub' in sys.argv[1]:
+    fsbf = '/' + ffDict[sys.argv[1].split('-')[1]]
+bitPath = "/home/svc.fpgatest/CI/{0}/{1}/{2}{3}".format(sys.argv[1], sys.argv[2], bVer, fsbf)
 fDict = {'fpga01': 'fpga1 fpga-1',
          'fpga02': 'fpga2 fpga-2',
          'fpga03-sub1': 'fpga3-sub1 fpga-3',

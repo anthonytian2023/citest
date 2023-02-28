@@ -79,7 +79,8 @@ pipeline{
             steps{
                 echo 'This is jobRun step'
                 sh '''
-                bash -x fpga/run.sh $SH_JOBDIR $SH_MODEL $SH_SEBIT $SH_APBIT $SH_ITYPE $SH_IVER $SH_KEY
+                echo "No run"
+                #fpga/run.sh $SH_JOBDIR $SH_MODEL $SH_SEBIT $SH_APBIT $SH_ITYPE $SH_IVER $SH_KEY
                 '''
             }
         }
