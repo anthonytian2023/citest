@@ -62,7 +62,7 @@ pipeline{
                 echo 'This is Deploy step'
                 sh '''
                 # deploy bitfile in remote FPGA-PC
-                #fpga/dpbit.py $SH_FPLAT $SH_JOBDIR $SH_MODEL cp $SH_APBIT $SH_SEBIT
+                fpga/dpbit.py $SH_FPLAT $SH_JOBDIR $SH_MODEL cp $SH_APBIT $SH_SEBIT
                 # download and deploy image to FPGA-PC
                 fpga/dpimg.py $SH_FPLAT $SH_JOBDIR $SH_MODEL $SH_APBIT $SH_SEBIT $SH_ITYPE $SH_IVER
                 '''
