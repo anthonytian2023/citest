@@ -4,12 +4,13 @@ cd $tdir
 export PATH=/home/jackeydu/.local/bin:$PATH
 cd ltp/testcases/cix_tests_suite/fpgaci/pengine
 ttl=$2
+tter="SW-Test-Robot"
 dsc="$2_Auto_Test"
-rFlag="--report=report.html --title=$ttl --tester='SW-Test-Robot' --desc=$dsc"
+rFlag="--report=report.html --title=$ttl --tester=$tter --desc=$dsc"
 if [ -n "$7" ]; then
-    kFlag="-k $7"
+    kFlag="-m $7"
 else
-    kFlag=""
+    kFlag="-m bspci"
 fi
 pytest $rFlag $kFlag
 rp=`ls -tl reports/*html | head -n 1 | cut -d / -f2`

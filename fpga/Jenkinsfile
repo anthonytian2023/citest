@@ -34,8 +34,8 @@ pipeline{
                 description: 'Input the target Image version in nexus like 2023020904-0000101')
         choice(name: 'FPGA_PLAT', choices: ['fpga01', 'fpga02', 'fpga03-sub1', 'fpga03-sub2', 'fpga03-sub3'],
                 description: 'Select the FPGA board...')
-        choice(name: 'KEYWORDS', choices: ['test_bsp'],
-                description: 'Select the Test Case Key Words...')
+        choice(name: 'KEYWORDS', choices: ['bspci', 'qspidriver', 'qspixip'],
+                description: 'Select the test model...')
 
     }
     environment {
