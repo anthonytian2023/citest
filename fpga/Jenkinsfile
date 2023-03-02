@@ -41,7 +41,7 @@ pipeline{
         failure{
             script{
                 mail bcc: '', 
-                body: "Fails to Run: https://ci.cixcomputing.com/job/${SH_JOBDIR}"
+                body: "Fails to Run: https://ci.cixcomputing.com/job/${SH_JOBDIR}",
                 cc: 'anthony.tian@cixtech.com', 
                 from: 'devops@cixcomputing.com', replyTo: '', 
                 subject: "FPGA Linux BSP CI Test fails to Run.", 
