@@ -3,7 +3,6 @@ pipeline{
     post {
         always{
             
-            SUMMARY = sh(script: "cat /home/jackeydu/jenkins/workspace/report/result.txt", returnStdout: true).trim()
             sh '''
             # clean up
             #fpga/dpbit.py $SH_FPLAT $SH_JOBDIR $SH_MODEL rm $SH_APBIT $SH_SEBIT
@@ -26,12 +25,15 @@ pipeline{
                    BUILD_USER_EMAIL = "${env.BUILD_USER_EMAIL}"
                }
 			}
-            mail bcc: '', 
-            body: "Dear All,\n\n\tBelow is the summary: \n\t${SUMMARY}. \n\tThe detailed report is: https://ci.cixcomputing.com/job/${SH_JOBDIR}/AP_5fBSP-Test-Report/", 
-            cc: 'anthony.tian@cixtech.com', 
-            from: 'devops@cixcomputing.com', replyTo: '', 
-            subject: "FPGA Linux BSP CI Test Finished with ${RESULT} result.", 
-            to: "${TOLIST}"
+            script{
+                SUMMARY = sh(script: "cat /home/jackeydu/jenkins/workspace/report/result.txt", returnStdout: true).trim()
+                mail bcc: '', 
+                body: "Dear All,\n\n\tBelow is the summary: \n\t${SUMMARY}. \n\tThe detailed report is: https://ci.cixcomputing.com/job/${SH_JOBDIR}/AP_5fBSP-Test-Report/", 
+                cc: 'anthony.tian@cixtech.com', 
+                from: 'devops@cixcomputing.com', replyTo: '', 
+                subject: "FPGA Linux BSP CI Test Finished with ${RESULT} result.", 
+                to: "${TOLIST}"
+            }
         }
     }
     parameters {
