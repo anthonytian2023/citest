@@ -31,10 +31,20 @@ pipeline{
                 rfile = '/home/jackeydu/jenkins/workspace/report/result.txt'
                 RESULT = sh(script: "grep 'Overall Result =' ${rfile} | cut -d= -f2", returnStdout: true).trim()
                 mail bcc: '', 
-                body: sh(script: "fpga/ebody.sh ${rfile}", returnStdout: true).trim(),
+                body: sh(script: "fpga/ebody.sh ${rfile} ${SH_JOBDIR}", returnStdout: true).trim(),
                 cc: 'anthony.tian@cixtech.com', 
                 from: 'devops@cixcomputing.com', replyTo: '', 
                 subject: "FPGA Linux BSP CI Test Finished with${RESULT} result.", 
+                to: "${TOLIST}"
+            }
+        }
+        failure{
+            script{
+                mail bcc: '', 
+                body: "Fails to Run: https://ci.cixcomputing.com/job/${SH_JOBDIR}"
+                cc: 'anthony.tian@cixtech.com', 
+                from: 'devops@cixcomputing.com', replyTo: '', 
+                subject: "FPGA Linux BSP CI Test fails to Run.", 
                 to: "${TOLIST}"
             }
         }
