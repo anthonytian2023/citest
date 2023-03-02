@@ -9,6 +9,8 @@ pipeline{
             #fpga/scm.sh $SH_JOBDIR teardown
             echo "Debug"
             '''
+        }
+        success{
             script{
                 publishHTML (target: [
                     allowMissing: false,
@@ -26,12 +28,13 @@ pipeline{
                }
 			}
             script{
-                SUMMARY = sh(script: "cat /home/jackeydu/jenkins/workspace/report/result.txt", returnStdout: true).trim()
+                rfile = '/home/jackeydu/jenkins/workspace/report/result.txt'
+                RESULT = sh(script: "grep 'Overall Result =' ${rfile} | cut -d= -f2", returnStdout: true).trim()
                 mail bcc: '', 
-                body: "Dear All,\n\n\tBelow is the summary: \n\t${SUMMARY}. \n\tThe detailed report is: https://ci.cixcomputing.com/job/${SH_JOBDIR}/AP_5fBSP-Test-Report/", 
+                body: sh(script: "fpga/ebody.sh ${rfile}", returnStdout: true).trim()
                 cc: 'anthony.tian@cixtech.com', 
                 from: 'devops@cixcomputing.com', replyTo: '', 
-                subject: "FPGA Linux BSP CI Test Finished with ${RESULT} result.", 
+                subject: "FPGA Linux BSP CI Test Finished with${RESULT} result.", 
                 to: "${TOLIST}"
             }
         }
@@ -64,7 +67,6 @@ pipeline{
         SH_FPLAT = "$params.FPGA_PLAT"
         SH_KEY = "$params.KEYWORDS"
         TOLIST = "anthony.tian@cixtech.com"
-        RESULT = "PASS"
     }
     stages {
         stage('SCM') {
@@ -99,7 +101,6 @@ pipeline{
                 echo 'This is jobRun step'
                 sh '''
                 #fpga/run.sh $SH_JOBDIR $SH_MODEL $SH_SEBIT $SH_APBIT $SH_ITYPE $SH_IVER $SH_KEY
-                RESULT = "FAIL"
                 '''
             }
         }
