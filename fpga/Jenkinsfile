@@ -5,9 +5,9 @@ pipeline{
             
             sh '''
             # clean up
-            #fpga/dpbit.py $SH_FPLAT $SH_JOBDIR $SH_MODEL rm $SH_APBIT $SH_SEBIT
-            #fpga/scm.sh $SH_JOBDIR teardown
-            echo "Debug"
+            fpga/dpbit.py $SH_FPLAT $SH_JOBDIR $SH_MODEL rm $SH_APBIT $SH_SEBIT
+            fpga/scm.sh $SH_JOBDIR teardown
+            #echo "Debug"
             '''
         }
         success{
@@ -34,7 +34,7 @@ pipeline{
                 body: sh(script: "fpga/ebody.sh ${rfile} ${SH_JOBDIR}", returnStdout: true).trim(),
                 cc: 'anthony.tian@cixtech.com', 
                 from: 'devops@cixcomputing.com', replyTo: '', 
-                subject: "FPGA Linux BSP CI Test Finished with${RESULT} result.", 
+                subject: "FPGA Linux BSP CI Test Finished with ${RESULT} result.", 
                 to: "${TOLIST}"
             }
         }
@@ -92,9 +92,9 @@ pipeline{
                 echo 'This is Deploy step'
                 sh '''
                 # deploy bitfile in remote FPGA-PC
-                #fpga/dpbit.py $SH_FPLAT $SH_JOBDIR $SH_MODEL cp $SH_APBIT $SH_SEBIT
+                fpga/dpbit.py $SH_FPLAT $SH_JOBDIR $SH_MODEL cp $SH_APBIT $SH_SEBIT
                 # download and deploy image to FPGA-PC
-                #fpga/dpimg.py $SH_FPLAT $SH_JOBDIR $SH_MODEL $SH_APBIT $SH_SEBIT $SH_ITYPE $SH_IVER
+                fpga/dpimg.py $SH_FPLAT $SH_JOBDIR $SH_MODEL $SH_APBIT $SH_SEBIT $SH_ITYPE $SH_IVER
                 '''
             }
         }
@@ -110,7 +110,7 @@ pipeline{
             steps{
                 echo 'This is jobRun step'
                 sh '''
-                #fpga/run.sh $SH_JOBDIR $SH_MODEL $SH_SEBIT $SH_APBIT $SH_ITYPE $SH_IVER $SH_KEY
+                fpga/run.sh $SH_JOBDIR $SH_MODEL $SH_SEBIT $SH_APBIT $SH_ITYPE $SH_IVER $SH_KEY
                 '''
             }
         }
