@@ -32,9 +32,9 @@ pipeline{
                 RESULT = sh(script: "grep 'Overall Result =' ${rfile} | cut -d= -f2", returnStdout: true).trim()
                 mail bcc: '', 
                 body: sh(script: "fpga/ebody.sh ${rfile} ${SH_JOBDIR}", returnStdout: true).trim(),
-                cc: 'anthony.tian@cixtech.com', 
+                cc: "${CCLIST}",
                 from: 'devops@cixcomputing.com', replyTo: '', 
-                subject: "FPGA Linux BSP CI Test Finished with ${RESULT} result.", 
+                subject: "FPGA Linux BSP CI Test for ${SH_ITYPE}:${SH_IVER} Finished with ${RESULT} result.", 
                 to: "${TOLIST}"
             }
         }
@@ -42,7 +42,7 @@ pipeline{
             script{
                 mail bcc: '', 
                 body: "Fails to Run: https://ci.cixcomputing.com/job/${SH_JOBDIR}",
-                cc: 'anthony.tian@cixtech.com', 
+                cc: "${CCLIST}",
                 from: 'devops@cixcomputing.com', replyTo: '', 
                 subject: "FPGA Linux BSP CI Test fails to Run.", 
                 to: "${TOLIST}"
@@ -76,7 +76,8 @@ pipeline{
         SH_JOBDIR = "$JOB_NAME/$BUILD_NUMBER"
         SH_FPLAT = "$params.FPGA_PLAT"
         SH_KEY = "$params.KEYWORDS"
-        TOLIST = "anthony.tian@cixtech.com"
+        TOLIST = "anthony.tian@cixtech.com peter.zhang@cixtech.com fugang.duan@cixtech.com guoyin.chen@cixtech.com"
+        CCLIST = "adeline.wang@cixtech.com"
     }
     stages {
         stage('SCM') {
