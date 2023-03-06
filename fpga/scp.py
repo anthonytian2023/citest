@@ -22,10 +22,7 @@ cid.expect([pexpect.EOF, pexpect.TIMEOUT])
 fList = os.popen('ls ' + sys.argv[1]).read().rstrip().split("\n")
 print(fList)
 for fl in fList:
-    if "rootfs.ext4.hex" in fl:
-        continue
     print("scp %s svc.fpgatest@fpga03.cixcomputing.cn:%s" % (sys.argv[1]+'/'+fl, sys.argv[2]))
-
     cid = pexpect.spawn("scp %s svc.fpgatest@fpga03.cixcomputing.cn:%s" %\
          (sys.argv[1] + '/' + fl, sys.argv[2]), encoding='utf-8', codec_errors='replace')
     cid.logfile = sys.stdout
