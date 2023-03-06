@@ -29,7 +29,7 @@ for fl in fList:
     cid.expect(prt) 
     # send password
     cid.sendline("Cix@88008080")
-    mid = cid.expect(['\$', pexpect.EOF, pexpect.TIMEOUT], timeout=600)
+    mid = cid.expect(['\$', pexpect.EOF, pexpect.TIMEOUT], timeout=900)
     if mid == 2:
         print("File: {0} copy timeout".format(fl))
         sys.exit(1)
