@@ -76,7 +76,7 @@ pipeline{
         SH_JOBDIR = "$JOB_NAME/$BUILD_NUMBER"
         SH_FPLAT = "$params.FPGA_PLAT"
         SH_KEY = "$params.KEYWORDS"
-        TOLIST = "anthony.tian@cixtech.com peter.zhang@cixtech.com fugang.duan@cixtech.com guoyin.chen@cixtech.com robin.wang@cixtech.com peter.chen@cixtech.com zhan.lou@cixtech.com cagent.zhang@cixtech.com"
+        TOLIST = "cix.sw@cixtech.com anthony.tian@cixtech.com peter.zhang@cixtech.com fugang.duan@cixtech.com guoyin.chen@cixtech.com robin.wang@cixtech.com peter.chen@cixtech.com zhan.lou@cixtech.com cagent.zhang@cixtech.com"
         CCLIST = "adeline.wang@cixtech.com gang.liu@cixtech.com"
         FCCLIST = "anthony.tian@cixtech.com"
         FTOLIST = "anthony.tian@cixtech.com"
