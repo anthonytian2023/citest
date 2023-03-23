@@ -1,0 +1,119 @@
+def NEXUX_URL = 'N/A'
+def BUILD_USER_EMAIL = "N/A"
+def BUILD_USER = "N/A"
+
+pipeline{
+    agent { label 'compiler' }
+    post {
+        always{
+            
+            sh """
+            # clean up
+            rm -rf ${SRC_HOME}
+			rm -rf ${WORKSPACE}/*
+            """
+        }
+        success{
+               script {
+				   mail bcc: '', 
+					cc: "${CCLIST}",
+					from: 'devops@cixcomputing.com', replyTo: '', 
+					subject: "Building Successfully", 
+					body: "Image address is: ${NEXUX_URL}",
+					to: "${BUILD_USER_EMAIL}"
+               }
+        }
+        failure{
+               script {
+				   mail bcc: '', 
+					cc: "${CCLIST}",
+					from: 'devops@cixcomputing.com', replyTo: '', 
+					subject: "Building Fail",
+					body: "Result: FAIL",					
+					to: "${BUILD_USER_EMAIL}"
+               }
+        }
+    }
+    parameters {
+        string(name: 'MANIFEST_FILE', defaultValue: 'default.xml', 
+                description: 'Give the default manifest file like release/cix_sky1_Alpha0.4-rc1/default.xml or default.xml')
+    }
+    environment {
+		MANIFEST_REPO = 'linux_repo/cix-manifest'
+        BRANCH = 'cix_master'
+        PLATFORM = 'cix'
+        GROUP = 'cix,sec'
+        MANIFEST_FILE = "$params.MANIFEST_FILE"
+		BUILD_VARIANT = 'fpga'
+		GIT_SERVER = 'codereview.cixtech.com:29418'
+        GIT_USER = 'svc.swciuser'
+        SRC_HOME = "${WORKSPACE}/${BRANCH}/src/${BUILD_NUMBER}"
+		OUT_HOME = "${SRC_HOME}/myout/"
+
+		NEXUS_VERSION = 'nexus3'
+        NEXUS_PROTOCOL = 'https'
+        NEXUS_URL = 'artifacts.cixtech.com'
+        NEXUS_REPOSITORY = "brom"
+        NEXUS_CREDENTIAL_ID = 'svc.swciuser'
+
+        CCLIST = "anthony.tian@cixtech.com"
+		
+		iFolder="tools/cix_binary/host/security/cix_secure_boot_tool/images/"
+		bxip="component/cix_firmware/fpga/brom/brom_xip.bin"
+		tList="output/cix_fpga/SKY1_BL33_UEFI.fd output/cix_fpga/pbl_fw.bin \
+				output/cix_fpga/bootloader1.img output/cix_fpga/tf-a.bin output/cix_fpga/tee.bin"
+					 
+    }
+    stages {
+        stage('SCM') {
+            steps{
+                echo 'This is SCM step'
+				wrap([$class: 'BuildUser']) {
+					script {
+						BUILD_USER = "${env.BUILD_USER}"
+						BUILD_USER_EMAIL = "${env.BUILD_USER_EMAIL}"
+					}
+				}				
+                sh """
+                    mkdir -p ${SRC_HOME}
+					mkdir -p ${SRC_HOME}/myout
+                """
+                dir(SRC_HOME){
+					timeout(time: 5, unit: 'MINUTES') {
+						sh """
+							repo init --depth 1 -u 'ssh://${GIT_USER}@${GIT_SERVER}/${MANIFEST_REPO}' \
+							-b '$BRANCH' \
+							-m '$MANIFEST_FILE' \
+							-g '$GROUP'
+							repo sync -j 32 --force-sync --force-remove-dirty -c --no-tags --no-clone-bundle
+						"""
+					}
+                }
+            }
+        }
+        stage('Build') {
+            steps{
+                echo 'This is Building step'
+				sh """
+					brom/gcov_build/xip_build.sh $SRC_HOME $OUT_HOME
+				"""
+				}
+            }
+        }
+        stage('Artifacts') {
+            steps{
+                echo 'This is Job Artifacts step'    
+				dir(SRC_HOME){
+					archiveArtifacts artifacts: '*.log', followSymlinks: false
+					echo "Put Nexus work Here"
+				}
+				dir(OUT_HOME) {
+                    sh("nexus3 upload --recurse ./ '${NEXUS_REPOSITORY}/${JOB_NAME}/${BUILD_NUMBER}'")
+                    script {
+                        NEXUX_URL = "https://${NEXUS_URL}/#browse/browse:${NEXUS_REPOSITORY}:${JOB_NAME}%2F${BUILD_NUMBER}"
+                    }
+                }
+            }
+        }
+    }
+}
