@@ -97,8 +97,7 @@ pipeline{
 				sh """
 					brom/gcov_build/xip_build.sh $SRC_HOME $OUT_HOME
 				"""
-				}
-            }
+			}
         }
         stage('Artifacts') {
             steps{
